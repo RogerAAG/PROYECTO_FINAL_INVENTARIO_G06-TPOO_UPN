@@ -6,6 +6,7 @@ public class FormLogin extends javax.swing.JFrame {
 
     public FormLogin() {
         initComponents();
+        setLocationRelativeTo(null);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -142,6 +143,8 @@ public class FormLogin extends javax.swing.JFrame {
         String[] Usuario = {"diana","jorge","roger"};
         String[] Contraseña = {"123","456","789"};
         boolean verificado = false;
+        int intentos=0;
+        
         String usuario = txtUsuario.getText();
         String contraseña = String.valueOf(txtContraseña.getPassword());
         
@@ -161,10 +164,19 @@ public class FormLogin extends javax.swing.JFrame {
         } 
         else
         {
-            JOptionPane.showMessageDialog(null,"Usuario o Contraseña invalida\nIntente de nuevo.");
-            txtUsuario.setText("");
-            txtContraseña.setText("");
-            txtUsuario.requestFocus();
+            intentos++;
+            if (intentos<3)
+            {
+                JOptionPane.showMessageDialog(null,"Usuario o Contraseña invalida!\nIntente de nuevo.");
+                txtUsuario.setText("");
+                txtContraseña.setText("");
+                txtUsuario.requestFocus();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"Excediste el número de intentos!");
+                System.exit(0);
+            }
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
