@@ -16,14 +16,13 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         pnlMenu = new javax.swing.JPanel();
         btnInventario = new javax.swing.JButton();
-        btnCompras = new javax.swing.JButton();
-        btnVentas = new javax.swing.JButton();
-        TpnlMenu = new javax.swing.JTabbedPane();
-        pnlVentas = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        pnlCompras = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        btnProveedores = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
+        TpnlPrincipal = new javax.swing.JTabbedPane();
         pnlInventario = new javax.swing.JPanel();
+        pnlProveedores = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        pnlNext = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
@@ -60,32 +59,34 @@ public class Principal extends javax.swing.JFrame {
         pnlMenu.setBackground(new java.awt.Color(0, 153, 153));
 
         btnInventario.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        btnInventario.setIcon(new javax.swing.ImageIcon("C:\\Users\\Roger Aldana\\Downloads\\Clipboard List.png")); // NOI18N
-        btnInventario.setText("INVENTARIO");
+        btnInventario.setText("COMING SOON...");
 
-        btnCompras.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        btnCompras.setIcon(new javax.swing.ImageIcon("C:\\Users\\Roger Aldana\\Downloads\\Shopping Cart.png")); // NOI18N
-        btnCompras.setText("COMPRAS");
+        btnProveedores.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnProveedores.setText("GESTION DE PROVEEDORES");
 
-        btnVentas.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        btnVentas.setIcon(new javax.swing.ImageIcon("C:\\Users\\Roger Aldana\\Downloads\\Fund Accounting.png")); // NOI18N
-        btnVentas.setText("VENTAS");
+        btnNext.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnNext.setText("GESTION DE INVENTARIO");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlMenuLayout = new javax.swing.GroupLayout(pnlMenu);
         pnlMenu.setLayout(pnlMenuLayout);
         pnlMenuLayout.setHorizontalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnInventario, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
         );
         pnlMenuLayout.setVerticalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuLayout.createSequentialGroup()
                 .addGap(74, 74, 74)
-                .addComponent(btnVentas)
+                .addComponent(btnNext)
                 .addGap(18, 18, 18)
-                .addComponent(btnCompras)
+                .addComponent(btnProveedores)
                 .addGap(18, 18, 18)
                 .addComponent(btnInventario)
                 .addContainerGap(379, Short.MAX_VALUE))
@@ -93,75 +94,67 @@ public class Principal extends javax.swing.JFrame {
 
         getContentPane().add(pnlMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 220, 660));
 
-        TpnlMenu.setBackground(new java.awt.Color(0, 153, 153));
-        TpnlMenu.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        TpnlPrincipal.setBackground(new java.awt.Color(0, 153, 153));
+        TpnlPrincipal.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
 
-        pnlVentas.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel2.setText("PRODUCTO");
-
-        javax.swing.GroupLayout pnlVentasLayout = new javax.swing.GroupLayout(pnlVentas);
-        pnlVentas.setLayout(pnlVentasLayout);
-        pnlVentasLayout.setHorizontalGroup(
-            pnlVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlVentasLayout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addComponent(jLabel2)
-                .addContainerGap(594, Short.MAX_VALUE))
-        );
-        pnlVentasLayout.setVerticalGroup(
-            pnlVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlVentasLayout.createSequentialGroup()
-                .addGap(205, 205, 205)
-                .addComponent(jLabel2)
-                .addContainerGap(494, Short.MAX_VALUE))
-        );
-
-        TpnlMenu.addTab("VENTAS", pnlVentas);
-
-        jLabel3.setText("PROVEEDOR");
-
-        javax.swing.GroupLayout pnlComprasLayout = new javax.swing.GroupLayout(pnlCompras);
-        pnlCompras.setLayout(pnlComprasLayout);
-        pnlComprasLayout.setHorizontalGroup(
-            pnlComprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlComprasLayout.createSequentialGroup()
-                .addGap(115, 115, 115)
-                .addComponent(jLabel3)
-                .addContainerGap(619, Short.MAX_VALUE))
-        );
-        pnlComprasLayout.setVerticalGroup(
-            pnlComprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlComprasLayout.createSequentialGroup()
-                .addGap(173, 173, 173)
-                .addComponent(jLabel3)
-                .addContainerGap(526, Short.MAX_VALUE))
-        );
-
-        TpnlMenu.addTab("COMPRAS", pnlCompras);
-
-        jLabel4.setText("EXISTENCIAS");
+        pnlInventario.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout pnlInventarioLayout = new javax.swing.GroupLayout(pnlInventario);
         pnlInventario.setLayout(pnlInventarioLayout);
         pnlInventarioLayout.setHorizontalGroup(
             pnlInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInventarioLayout.createSequentialGroup()
+            .addGap(0, 800, Short.MAX_VALUE)
+        );
+        pnlInventarioLayout.setVerticalGroup(
+            pnlInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 715, Short.MAX_VALUE)
+        );
+
+        TpnlPrincipal.addTab("GESTION DE INVENTARIO", pnlInventario);
+
+        jLabel3.setText("PROVEEDOR");
+
+        javax.swing.GroupLayout pnlProveedoresLayout = new javax.swing.GroupLayout(pnlProveedores);
+        pnlProveedores.setLayout(pnlProveedoresLayout);
+        pnlProveedoresLayout.setHorizontalGroup(
+            pnlProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlProveedoresLayout.createSequentialGroup()
+                .addGap(115, 115, 115)
+                .addComponent(jLabel3)
+                .addContainerGap(619, Short.MAX_VALUE))
+        );
+        pnlProveedoresLayout.setVerticalGroup(
+            pnlProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlProveedoresLayout.createSequentialGroup()
+                .addGap(173, 173, 173)
+                .addComponent(jLabel3)
+                .addContainerGap(526, Short.MAX_VALUE))
+        );
+
+        TpnlPrincipal.addTab("GESTION DE PROVEEDORES", pnlProveedores);
+
+        jLabel4.setText("EXISTENCIAS");
+
+        javax.swing.GroupLayout pnlNextLayout = new javax.swing.GroupLayout(pnlNext);
+        pnlNext.setLayout(pnlNextLayout);
+        pnlNextLayout.setHorizontalGroup(
+            pnlNextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlNextLayout.createSequentialGroup()
                 .addGap(175, 175, 175)
                 .addComponent(jLabel4)
                 .addContainerGap(556, Short.MAX_VALUE))
         );
-        pnlInventarioLayout.setVerticalGroup(
-            pnlInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInventarioLayout.createSequentialGroup()
+        pnlNextLayout.setVerticalGroup(
+            pnlNextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlNextLayout.createSequentialGroup()
                 .addGap(221, 221, 221)
                 .addComponent(jLabel4)
                 .addContainerGap(478, Short.MAX_VALUE))
         );
 
-        TpnlMenu.addTab("INVENTARIO", pnlInventario);
+        TpnlPrincipal.addTab("COMING SOON...", pnlNext);
 
-        getContentPane().add(TpnlMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 800, 750));
+        getContentPane().add(TpnlPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 800, 750));
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -180,6 +173,10 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNextActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -214,19 +211,18 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane TpnlMenu;
-    private javax.swing.JButton btnCompras;
+    private javax.swing.JTabbedPane TpnlPrincipal;
     private javax.swing.JButton btnInventario;
-    private javax.swing.JButton btnVentas;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnProveedores;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel pnlCompras;
     private javax.swing.JPanel pnlInventario;
     private javax.swing.JPanel pnlMenu;
-    private javax.swing.JPanel pnlVentas;
+    private javax.swing.JPanel pnlNext;
+    private javax.swing.JPanel pnlProveedores;
     // End of variables declaration//GEN-END:variables
 }
