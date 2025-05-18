@@ -24,12 +24,24 @@ public class ConexionBD
         {
             Class.forName(DRIVER);
             cnn = (Connection)DriverManager.getConnection(URL, USUARIO, CLAVE);
-        }catch(Exception e){
+        }
+        catch(Exception e)
+        {
             System.out.println("Error: "+e.getMessage());
             System.exit(0);
         }
         return cnn;
     }
-    public void Desconectar(){}
     
+    public void Desconectar()
+    {
+        try
+        {
+            cnn.close();
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Error al cerrar la conexión: "+ e.getMessage());
+        }
+    } 
 }
