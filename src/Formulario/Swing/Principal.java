@@ -25,7 +25,7 @@ public class Principal extends javax.swing.JFrame {
         obj.setDescripcion(txtDescripcion.getText());
         obj.setCategoria(cmbCategoria.getSelectedItem().toString());
         obj.setStock(Integer.parseInt(this.txtStock.getText()));
-        obj.setPrecio(Integer.parseInt(this.txtPrecio.getText()));
+        obj.setPrecio(Float.parseFloat(this.txtPrecio.getText()));
         
         //escoger insercion o actualizacion
         if (num==0) {
@@ -254,6 +254,11 @@ public class Principal extends javax.swing.JFrame {
         btnEliminar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Trash Can.png"))); // NOI18N
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnImprimir.setBackground(new java.awt.Color(0, 204, 204));
         btnImprimir.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -264,6 +269,11 @@ public class Principal extends javax.swing.JFrame {
         btnEditar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Edit.png"))); // NOI18N
         btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setBackground(new java.awt.Color(0, 204, 204));
         btnBuscar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -273,7 +283,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel9.setText("Categoria:");
 
-        cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Seleccionar Categoria----", "Gaseosas", "Cervezas", "Aguas", "Abarrotes", "Licores", "Golosinas", "Snacks" }));
         cmbCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbCategoriaActionPerformed(evt);
@@ -613,6 +623,21 @@ public class Principal extends javax.swing.JFrame {
     private void cmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoriaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbCategoriaActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int fila = tblProductos.getSelectedRow();
+       if (fila<1)
+           JOptionPane.showMessageDialog(null, "Seleccione un registro");
+       else {
+           obj.EliminarDatos(Integer.parseInt(tblProductos.getValueAt(fila,0).toString()));
+           limpiar_controles();
+           listarDatos();
+       }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        guardar();
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
