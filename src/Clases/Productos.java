@@ -205,4 +205,39 @@ public class Productos {
         
         return resp;
     }
+    // Método para buscar un producto por su ID
+    public Productos buscarProducto(int idproducto) {
+    String SQL_SELECT = "SELECT * FROM productos WHERE idproducto = ?";
+    Productos producto = null;
+    
+    try {
+        // Prepara la sentencia SQL
+        sentencia = cnn.Conectar().prepareStatement(SQL_SELECT);
+        sentencia.setInt(1, idproducto);
+        registros = sentencia.executeQuery();
+        
+        // Si encuentra el producto, llena los datos
+        if (registros.next()) {
+            producto = new Productos();
+            producto.setIdproducto(registros.getInt("idproducto"));
+            producto.setDescripcion(registros.getString("descripcion"));
+            producto.setCategoria(registros.getString("categoria"));
+            producto.setStock(registros.getInt("stock"));
+            producto.setPrecio(registros.getBigDecimal("precio"));
+        }
+        
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al buscar el producto: " + e.getMessage());
+    } finally {
+        try {
+            if (registros != null) registros.close();
+            if (sentencia != null) sentencia.close();
+            cnn.Desconectar();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e.getMessage());
+        }
+    }
+    
+    return producto;
+}
 }
