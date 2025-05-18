@@ -18,12 +18,16 @@ public class ConexionBD
         cnn = null;
     }
     
+    //Metodo para conectar a la Base de Datos
     public Connection Conectar()
     {
         try
         {
+            //cargar el driver
             Class.forName(DRIVER);
+            //Conecta a la base de datos
             cnn = (Connection)DriverManager.getConnection(URL, USUARIO, CLAVE);
+            
         }
         catch(Exception e)
         {
@@ -33,6 +37,7 @@ public class ConexionBD
         return cnn;
     }
     
+    //metodo para desconectar de la base de datos
     public void Desconectar()
     {
         try
