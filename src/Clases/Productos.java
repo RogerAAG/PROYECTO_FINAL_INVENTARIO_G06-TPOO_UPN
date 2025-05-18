@@ -6,13 +6,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.math.BigDecimal;
 
 public class Productos {
+     // Atributos de la clase Productos
     private int idproducto;
     private String descripcion;
     private String categoria;
     private int stock;
-    private float precio;
+    private BigDecimal precio;  // Usamos BigDecimal para mayor precisión en el manejo de precios
+
+    // Objetos para manejar la conexión a la base de datos
+    private final ConexionBD cnn;
+    private PreparedStatement sentencia;
+    private DefaultTableModel modelo;
+    private ResultSet registros;
 
     public int getIdproducto() {
         return idproducto;
@@ -46,11 +54,11 @@ public class Productos {
         this.stock = stock;
     }
     
-    public float getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
     
@@ -61,46 +69,39 @@ public class Productos {
         sentencia = null;
     }
             
-    //Insertar registros
-    private final ConexionBD cnn;
-    private PreparedStatement sentencia;
-    
-    //Metodo para poder insertar datos
-    public int InsertarDatos(String desc, String categ, int sto, float prec)
-    {
+    // Método para insertar datos en la tabla 'productos'
+    public int InsertarDatos(String desc, String categ, int sto, BigDecimal prec) {
         int resp = 0;
-        String SQL_INSERT = "INSERT INTO productos(idproducto,descripcion,categoris,stock,precio) VALUES (?,?,?,?)";
+        // Consulta SQL con parámetros para prevenir inyecciones SQL
+        String SQL_INSERT = "INSERT INTO productos (descripcion, categoria, stock, precio) VALUES (?, ?, ?, ?)";
         
-        try
-        {
+        try {
+            // Preparando la sentencia SQL
             sentencia = cnn.Conectar().prepareStatement(SQL_INSERT);
-            sentencia.setString(2, desc);
-            sentencia.setString(3, categ);
-            sentencia.setInt(4, sto);
-            sentencia.setFloat(5,prec);
-            resp = sentencia.executeUpdate();
+            sentencia.setString(1, desc);          // Asigna la descripción
+            sentencia.setString(2, categ);        // Asigna la categoría
+            sentencia.setInt(3, sto);             // Asigna el stock
+            sentencia.setBigDecimal(4, prec);     // Asigna el precio
+            resp = sentencia.executeUpdate();     // Ejecuta la consulta
             
-            if (resp>0)
+            // Muestra un mensaje si se guardó correctamente
+            if (resp > 0) {
                 JOptionPane.showMessageDialog(null, "Registro Guardado");
-        }
-        catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, "Error al grabar en la BD "+ e.getMessage());
-        }
-        finally
-        {
+            }
+        } catch (SQLException e) {
+            // Maneja errores de base de datos
+            JOptionPane.showMessageDialog(null, "Error al grabar en la BD: " + e.getMessage());
+        } finally {
+            // Libera los recursos
             sentencia = null;
             cnn.Desconectar();
         }
         
         return resp;
     }
-    //Lista de los productos
-    private DefaultTableModel modelo;
-    private ResultSet registros;
     
-    private DefaultTableModel CrearTitulos()
-    {
+    // Método para crear los títulos de la tabla de productos
+    private DefaultTableModel CrearTitulos() {
         modelo = new DefaultTableModel();
         modelo.addColumn("IdProducto");
         modelo.addColumn("Descripcion");
@@ -109,48 +110,67 @@ public class Productos {
         modelo.addColumn("Precio");
         return modelo;
     }
+    
+    // Método para obtener todos los registros de la tabla 'productos'
     public DefaultTableModel obtenerDatos() {
-        String SQL_SELECT ="Select * from productos";
-                
-        try{
+        String SQL_SELECT = "SELECT * FROM productos";
+        
+        try {
+            // Crea los títulos para la tabla
             CrearTitulos();
+            
+            // Prepara y ejecuta la consulta SQL
             sentencia = cnn.Conectar().prepareStatement(SQL_SELECT);
             registros = sentencia.executeQuery();
-            Object[] fila = new Object[4];
-            while(registros.next()) {
-                fila[0] = registros.getInt(1);
-                fila[1] = registros.getString(2);
-                fila[2] = registros.getString(3);
-                fila[3] = registros.getInt(4);
-                fila[4] = registros.getFloat(5);
+            
+            // Rellena el modelo de tabla con los datos obtenidos
+            Object[] fila = new Object[5];
+            while (registros.next()) {
+                fila[0] = registros.getInt("idproducto");      // ID del producto
+                fila[1] = registros.getString("descripcion");  // Descripción
+                fila[2] = registros.getString("categoria");    // Categoría
+                fila[3] = registros.getInt("stock");           // Stock
+                fila[4] = registros.getBigDecimal("precio");   // Precio
                 modelo.addRow(fila);
             }
-        } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error al listar la BD:" + e.getMessage());
+        } catch (SQLException e) {
+            // Maneja errores de base de datos
+            JOptionPane.showMessageDialog(null, "Error al listar la BD: " + e.getMessage());
         } finally {
+            // Libera los recursos
             sentencia = null;
             registros = null;
             cnn.Desconectar();
         }
+        
         return modelo;
     }
     
-    //Actualizar productos
-    public int ActualizarDatos(int idprod, String desc, String categ, int sto, float prec) {
+    // Método para actualizar registros en la tabla 'productos'
+    public int ActualizarDatos(int idprod, String desc, String categ, int sto, BigDecimal prec) {
         int resp = 0;
-        /*String SQL_UPDATE = "UPDATE productos SET descripcion = '"+ desc +"',categoria= '"+ categ +"',existencias= "+ exist +" WHERE idproducto = " + idprod;*/
-        String SQL_UPDATE = "UPDATE productos SET descripcion = '"+ desc +"', "
-                + "categoria= '"+ categ +"',stock= "+ sto +"precio= '" + prec + " "
-                + " WHERE idproducto = " + idprod;
+        // Consulta SQL con parámetros para evitar errores de sintaxis
+        String SQL_UPDATE = "UPDATE productos SET descripcion = ?, categoria = ?, stock = ?, precio = ? WHERE idproducto = ?";
         
-        try{
+        try {
+            // Prepara la sentencia SQL
             sentencia = cnn.Conectar().prepareStatement(SQL_UPDATE);
+            sentencia.setString(1, desc);
+            sentencia.setString(2, categ);
+            sentencia.setInt(3, sto);
+            sentencia.setBigDecimal(4, prec);
+            sentencia.setInt(5, idprod);
             resp = sentencia.executeUpdate();
-            if (resp>0)
+            
+            // Muestra un mensaje si se actualizó correctamente
+            if (resp > 0) {
                 JOptionPane.showMessageDialog(null, "Registro actualizado");
-        } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error al actualizar la BD " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            // Maneja errores de base de datos
+            JOptionPane.showMessageDialog(null, "Error al actualizar la BD: " + e.getMessage());
         } finally {
+            // Libera los recursos
             sentencia = null;
             cnn.Desconectar();
         }
@@ -158,19 +178,27 @@ public class Productos {
         return resp;
     }
     
-        //Actualizar productos
+    // Método para eliminar un producto por ID
     public int EliminarDatos(int idprod) {
         int resp = 0;
-        String SQL_BORRAR = "DELETE from productos WHERE idproducto = " + idprod;
+        // Consulta SQL para eliminar un registro
+        String SQL_DELETE = "DELETE FROM productos WHERE idproducto = ?";
         
-        try{
-            sentencia = cnn.Conectar().prepareStatement(SQL_BORRAR);
+        try {
+            // Prepara la sentencia SQL
+            sentencia = cnn.Conectar().prepareStatement(SQL_DELETE);
+            sentencia.setInt(1, idprod);
             resp = sentencia.executeUpdate();
-            if (resp>0)
+            
+            // Muestra un mensaje si se eliminó correctamente
+            if (resp > 0) {
                 JOptionPane.showMessageDialog(null, "Registro eliminado");
-        } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error al eliminar en la BD " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            // Maneja errores de base de datos
+            JOptionPane.showMessageDialog(null, "Error al eliminar en la BD: " + e.getMessage());
         } finally {
+            // Libera los recursos
             sentencia = null;
             cnn.Desconectar();
         }
