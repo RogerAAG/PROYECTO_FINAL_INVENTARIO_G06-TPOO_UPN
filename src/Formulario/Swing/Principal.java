@@ -33,7 +33,7 @@ public class Principal extends javax.swing.JFrame {
         obj.setStock(Integer.parseInt(this.txtStock.getText()));
         obj.setPrecio(new BigDecimal(this.txtPrecio.getText()));
         
-        //escoger insercion o actualizacion
+        //escoger Agregar o Actualizacion
         if (num==0) {
             int regs = obj.InsertarDatos(obj.getDescripcion(), 
                                          obj.getCategoria(), 
@@ -87,25 +87,29 @@ public class Principal extends javax.swing.JFrame {
     
     private void guardarProveedores() {
         try {
-            if (num == 1)  // Modo Edición
+            // Verifica si está en modo edición (num == 1)
+            if (num == 1)  
+                 // Establece el ID del proveedor si se está editando
                 proveedores.setIdproveedores(Integer.parseInt(txtIdProveedores.getText()));
             
-            // Setea los datos del proveedor
+                // Establece los datos del proveedor desde los campos de texto
             proveedores.setRuc(txtRuc.getText());
             proveedores.setRazonsocial(txtRazonSocial.getText());
             proveedores.setDireccion(txtDireccion.getText());
             proveedores.setTelefono(txtTelefono.getText());
             
             int resultado;
-            if (num == 0) {  // Modo Agregar
+            if (num == 0) {  
+                // Inserta un nuevo proveedor en la base de datos
                 resultado = proveedores.insertarProveedores(
                     proveedores.getRuc(),
                     proveedores.getRazonsocial(),
                     proveedores.getDireccion(),
                     proveedores.getTelefono()
                 );
-                listarProveedores();
-            } else {  // Modo Edición
+                listarProveedores();// Actualiza la tabla de proveedores
+            } else {  
+                // Actualiza un proveedor existente en la base de datos
                 resultado = proveedores.actualizarProveedores(
                     proveedores.getIdproveedores(),
                     proveedores.getRuc(),
@@ -113,27 +117,33 @@ public class Principal extends javax.swing.JFrame {
                     proveedores.getDireccion(),
                     proveedores.getTelefono()
                 );
-                listarProveedores();
+                listarProveedores();// Actualiza la tabla de proveedores
                 num = 0;  // Regresa al modo agregar
             }
-
+                // Muestra un mensaje de éxito si se guardó correctamente
             if (resultado > 0) {
                 listarProveedores();
                 limpiarControles();
                 JOptionPane.showMessageDialog(this, "Proveedor guardado correctamente.");
             }
         } catch (NumberFormatException e) {
+            // Maneja el error si se ingresa un valor no numérico en los campos de ID, RUC o Teléfono
             JOptionPane.showMessageDialog(this, "Por favor ingresa valores numéricos válidos para ID, RUC y Teléfono.");
         }
     }
     
+    // Método para buscar un proveedor por ID y llenar los campos del formulario
     private void buscarProveedores() {
         try {
+            // Obtiene el ID del proveedor desde el campo de texto
             int idProveedor = Integer.parseInt(txtIdProveedores.getText());
             DefaultTableModel modelo = proveedores.obtenerProveedores();
             
+            // Recorre las filas de la tabla para encontrar el proveedor
             for (int i = 0; i < modelo.getRowCount(); i++) {
+                // Compara el ID del proveedor con el valor en la primera columna de la tabla
                 if (Integer.parseInt(modelo.getValueAt(i, 0).toString()) == idProveedor) {
+                    // Llena los campos del formulario con los datos del proveedor encontrado
                     txtRuc.setText(modelo.getValueAt(i, 1).toString());
                     txtRazonSocial.setText(modelo.getValueAt(i, 2).toString());
                     txtDireccion.setText(modelo.getValueAt(i, 3).toString());
@@ -144,23 +154,31 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
             
+            // Muestra un mensaje si no se encuentra el proveedor
             JOptionPane.showMessageDialog(this, "Proveedor no encontrado.");
         } catch (NumberFormatException e) {
+            // Maneja el error si se ingresa un ID de proveedor no numérico
             JOptionPane.showMessageDialog(this, "Por favor ingresa un ID de proveedor válido.");
         }
     }
 
+    // Método para eliminar un proveedor seleccionado de la tabla
     private void eliminarProveedores() {
+        // Obtiene la fila seleccionada en la tabla
         int fila = tblProveedores.getSelectedRow();
         
+        // Verifica si se seleccionó una fila
         if (fila < 0) {
             JOptionPane.showMessageDialog(this, "Por favor selecciona un proveedor para eliminar.");
-            return;
+            return;// Sale del método si no se seleccionó ninguna fila
         }
 
+        // Obtiene el ID del proveedor desde la fila seleccionada
         int idProveedores = Integer.parseInt(tblProveedores.getValueAt(fila, 0).toString());
+        // Elimina el proveedor de la base de datos
         int resultado = proveedores.eliminarProveedores(idProveedores);
         
+        // Si el proveedor fue eliminado correctamente
         if (resultado > 0) {
             listarProveedores();
             limpiarControles();
@@ -175,6 +193,7 @@ public class Principal extends javax.swing.JFrame {
         jDialog1 = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        lblLogo = new javax.swing.JLabel();
         pnlMenu = new javax.swing.JPanel();
         btnComingSoon = new javax.swing.JButton();
         btnFormProveedores = new javax.swing.JButton();
@@ -247,24 +266,32 @@ public class Principal extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Main Inventory");
 
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Warehouse.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                .addGap(14, 14, 14))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                .addGap(19, 19, 19))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 90));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
 
         pnlMenu.setBackground(new java.awt.Color(0, 153, 153));
 
@@ -320,22 +347,22 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(btnConexion))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlMenuLayout.createSequentialGroup()
-                .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnFormProductos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(btnComingSoon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnFormProveedores, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
+                .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnComingSoon, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFormProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFormProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         pnlMenuLayout.setVerticalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuLayout.createSequentialGroup()
-                .addGap(74, 74, 74)
+                .addGap(145, 145, 145)
                 .addComponent(btnFormProductos)
                 .addGap(18, 18, 18)
                 .addComponent(btnFormProveedores)
                 .addGap(18, 18, 18)
                 .addComponent(btnComingSoon)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
                 .addComponent(btnConexion)
                 .addGap(18, 18, 18)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -903,13 +930,18 @@ public class Principal extends javax.swing.JFrame {
        buscarProveedores();
     }//GEN-LAST:event_btnBuscarProveedoresActionPerformed
 
+    // Método para manejar el evento de clic del botón "Reporte Proveedores"
     private void btnReporteProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteProveedoresActionPerformed
+        // Declara un objeto de la clase Imprimir
         Imprimir obj;
 
         try {
+            // Crea una nueva instancia de la clase Imprimir
             obj = new Imprimir();
+            // Llama al método exportarExcel para exportar los datos de la tabla de proveedores
             obj.exportarExcel(tblProveedores);
         } catch (IOException ex) {
+            // Muestra un mensaje de error en la consola si ocurre una excepción de entrada/salida
             System.out.println("Error: " + ex);
         }  
     }//GEN-LAST:event_btnReporteProveedoresActionPerformed
@@ -992,6 +1024,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblLogo;
     private javax.swing.JPanel pnlInventario;
     private javax.swing.JPanel pnlMenu;
     private javax.swing.JPanel pnlNext;
