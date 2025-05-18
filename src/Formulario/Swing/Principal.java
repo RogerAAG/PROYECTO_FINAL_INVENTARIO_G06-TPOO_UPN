@@ -67,6 +67,8 @@ public class Principal extends javax.swing.JFrame {
         proveedores = new Proveedores();
         listarProveedores();
         listarDatos();
+        TpnlPrincipal.setSelectedIndex(0);
+        setLocationRelativeTo(null);
     }
     
     //Limpiar FormProveedores
@@ -174,7 +176,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         pnlMenu = new javax.swing.JPanel();
-        btnInventario = new javax.swing.JButton();
+        btnComingSoon = new javax.swing.JButton();
         btnFormProveedores = new javax.swing.JButton();
         btnFormProductos = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
@@ -266,13 +268,23 @@ public class Principal extends javax.swing.JFrame {
 
         pnlMenu.setBackground(new java.awt.Color(0, 153, 153));
 
-        btnInventario.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        btnInventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Soon Arrow.png"))); // NOI18N
-        btnInventario.setText("COMING SOON...");
+        btnComingSoon.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnComingSoon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Soon Arrow.png"))); // NOI18N
+        btnComingSoon.setText("COMING SOON...");
+        btnComingSoon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComingSoonActionPerformed(evt);
+            }
+        });
 
         btnFormProveedores.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnFormProveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Shopping Cart.png"))); // NOI18N
         btnFormProveedores.setText("PROVEEDORES");
+        btnFormProveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFormProveedoresActionPerformed(evt);
+            }
+        });
 
         btnFormProductos.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnFormProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Clipboard List.png"))); // NOI18N
@@ -301,17 +313,18 @@ public class Principal extends javax.swing.JFrame {
         pnlMenu.setLayout(pnlMenuLayout);
         pnlMenuLayout.setHorizontalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnFormProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnInventario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(pnlMenuLayout.createSequentialGroup()
-                .addComponent(btnFormProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(pnlMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConexion))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlMenuLayout.createSequentialGroup()
+                .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnFormProductos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(btnComingSoon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnFormProveedores, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnlMenuLayout.setVerticalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,7 +334,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnFormProveedores)
                 .addGap(18, 18, 18)
-                .addComponent(btnInventario)
+                .addComponent(btnComingSoon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
                 .addComponent(btnConexion)
                 .addGap(18, 18, 18)
@@ -729,24 +742,24 @@ public class Principal extends javax.swing.JFrame {
 
         TpnlPrincipal.addTab("GESTION DE PROVEEDORES", pnlProveedores);
 
-        jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         jLabel11.setText("EN DESARROLLO...");
 
         javax.swing.GroupLayout pnlNextLayout = new javax.swing.GroupLayout(pnlNext);
         pnlNext.setLayout(pnlNextLayout);
         pnlNextLayout.setHorizontalGroup(
             pnlNextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlNextLayout.createSequentialGroup()
-                .addGap(297, 297, 297)
-                .addComponent(jLabel11)
-                .addContainerGap(326, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNextLayout.createSequentialGroup()
+                .addContainerGap(198, Short.MAX_VALUE)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(135, 135, 135))
         );
         pnlNextLayout.setVerticalGroup(
             pnlNextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNextLayout.createSequentialGroup()
-                .addGap(243, 243, 243)
-                .addComponent(jLabel11)
-                .addContainerGap(371, Short.MAX_VALUE))
+                .addGap(261, 261, 261)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(294, Short.MAX_VALUE))
         );
 
         TpnlPrincipal.addTab("COMING SOON...", pnlNext);
@@ -772,7 +785,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFormProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFormProductosActionPerformed
-        // TODO add your handling code here:
+        TpnlPrincipal.setSelectedIndex(0);
     }//GEN-LAST:event_btnFormProductosActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
@@ -901,6 +914,14 @@ public class Principal extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_btnReporteProveedoresActionPerformed
 
+    private void btnFormProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFormProveedoresActionPerformed
+        TpnlPrincipal.setSelectedIndex(1);
+    }//GEN-LAST:event_btnFormProveedoresActionPerformed
+
+    private void btnComingSoonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComingSoonActionPerformed
+        TpnlPrincipal.setSelectedIndex(2);
+    }//GEN-LAST:event_btnComingSoonActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -939,6 +960,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarProveedores;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscarProveedores;
+    private javax.swing.JButton btnComingSoon;
     private javax.swing.JButton btnConexion;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEditarProveedores;
@@ -948,7 +970,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnFormProductos;
     private javax.swing.JButton btnFormProveedores;
     private javax.swing.JButton btnImprimir;
-    private javax.swing.JButton btnInventario;
     private javax.swing.JButton btnReporteProveedores;
     private javax.swing.JComboBox<String> cmbCategoria;
     private javax.swing.JDialog jDialog1;
