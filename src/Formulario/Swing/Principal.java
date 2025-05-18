@@ -3,6 +3,9 @@ import AccesoBD.ConexionBD;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import Clases.Productos;
+import Clases.Imprimir;
+import java.math.BigDecimal;
+import java.io.IOException;
 
 public class Principal extends javax.swing.JFrame {
     private final Productos obj;
@@ -25,18 +28,23 @@ public class Principal extends javax.swing.JFrame {
         obj.setDescripcion(txtDescripcion.getText());
         obj.setCategoria(cmbCategoria.getSelectedItem().toString());
         obj.setStock(Integer.parseInt(this.txtStock.getText()));
-        obj.setPrecio(Float.parseFloat(this.txtPrecio.getText()));
+        obj.setPrecio(new BigDecimal(this.txtPrecio.getText()));
         
         //escoger insercion o actualizacion
         if (num==0) {
             int regs = obj.InsertarDatos(obj.getDescripcion(), 
-                    obj.getCategoria(), obj.getStock(),obj.getPrecio());
+                                         obj.getCategoria(), 
+                                         obj.getStock(),
+                                         obj.getPrecio());
             if (regs>0) {
                 listarDatos();
             }
         } else {
-            int regs = obj.ActualizarDatos(obj.getIdproducto(),obj.getDescripcion(), 
-                    obj.getCategoria(), obj.getStock(),obj.getPrecio());
+            int regs = obj.ActualizarDatos(obj.getIdproducto(),
+                                           obj.getDescripcion(), 
+                                           obj.getCategoria(), 
+                                           obj.getStock(),
+                                           obj.getPrecio());
             if (regs>0) {
                 listarDatos();
                 num=0;
@@ -159,6 +167,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Close Window.png"))); // NOI18N
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
 
         btnConexion.setText("Prueba de Conexión");
         btnConexion.addActionListener(new java.awt.event.ActionListener() {
@@ -192,14 +205,14 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(btnProveedores)
                 .addGap(18, 18, 18)
                 .addComponent(btnInventario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
                 .addComponent(btnConexion)
                 .addGap(18, 18, 18)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        getContentPane().add(pnlMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 220, 560));
+        getContentPane().add(pnlMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 220, 590));
 
         TpnlPrincipal.setBackground(new java.awt.Color(0, 153, 153));
         TpnlPrincipal.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -249,6 +262,11 @@ public class Principal extends javax.swing.JFrame {
         btnAgregar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Checked Checkbox.png"))); // NOI18N
         btnAgregar.setText("AGREGAR");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setBackground(new java.awt.Color(0, 204, 204));
         btnEliminar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -264,6 +282,11 @@ public class Principal extends javax.swing.JFrame {
         btnImprimir.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Print.png"))); // NOI18N
         btnImprimir.setText("IMPRIMIR TABLA");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
 
         btnEditar.setBackground(new java.awt.Color(0, 204, 204));
         btnEditar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -335,7 +358,7 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(pnlInventarioLayout.createSequentialGroup()
                                 .addGap(267, 267, 267)
                                 .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         pnlInventarioLayout.setVerticalGroup(
             pnlInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,7 +391,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnImprimir)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         TpnlPrincipal.addTab("GESTION DE INVENTARIO", pnlInventario);
@@ -482,7 +505,7 @@ public class Principal extends javax.swing.JFrame {
                                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(pnlProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtRazonSocial, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
+                                    .addComponent(txtRazonSocial)
                                     .addComponent(txtDireccion)
                                     .addComponent(txtTelefono)
                                     .addComponent(txtRUC1)))
@@ -503,9 +526,8 @@ public class Principal extends javax.swing.JFrame {
                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 748, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(pnlProveedoresLayout.createSequentialGroup()
                                         .addGap(189, 189, 189)
-                                        .addComponent(btnImprimir1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                        .addComponent(btnImprimir1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 41, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         pnlProveedoresLayout.setVerticalGroup(
@@ -542,7 +564,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnImprimir1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         TpnlPrincipal.addTab("GESTION DE PROVEEDORES", pnlProveedores);
@@ -557,19 +579,19 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(pnlNextLayout.createSequentialGroup()
                 .addGap(297, 297, 297)
                 .addComponent(jLabel11)
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addContainerGap(326, Short.MAX_VALUE))
         );
         pnlNextLayout.setVerticalGroup(
             pnlNextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNextLayout.createSequentialGroup()
                 .addGap(243, 243, 243)
                 .addComponent(jLabel11)
-                .addContainerGap(341, Short.MAX_VALUE))
+                .addContainerGap(371, Short.MAX_VALUE))
         );
 
         TpnlPrincipal.addTab("COMING SOON...", pnlNext);
 
-        getContentPane().add(TpnlPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 810, 650));
+        getContentPane().add(TpnlPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 830, 680));
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -636,8 +658,30 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        num =1;
         guardar();
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        num =0;
+        guardar();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+    Imprimir obj;
+
+        try {
+            obj = new Imprimir();
+            obj.exportarExcel(tblProductos);
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex);
+        }
+
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExitActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
